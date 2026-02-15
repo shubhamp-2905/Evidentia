@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evidentia | Intelligent RAG System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Ionicons for icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <ion-icon name="aperture-outline"></ion-icon>
+                </div>
+                <h1>Evidentia</h1>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active">
+                    <ion-icon name="chatbubbles-outline"></ion-icon>
+                    <span>AI Chat Helper</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <ion-icon name="documents-outline"></ion-icon>
+                    <span>Documents</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <ion-icon name="analytics-outline"></ion-icon>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <ion-icon name="settings-outline"></ion-icon>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="pro-card">
+                    <div class="pro-content">
+                        <div class="pro-icon">
+                            <ion-icon name="flash"></ion-icon>
+                        </div>
+                        <div class="pro-text">
+                            <h3>Pro Plan</h3>
+                            <p>Unlock advanced features</p>
+                        </div>
+                    </div>
+                    <button class="btn-upgrade">Get Pro</button>
+                </div>
+
+                <div class="user-profile">
+                    <div class="avatar">US</div>
+                    <div class="user-info">
+                        <span class="name">User</span>
+                        <span class="role">Admin</span>
+                    </div>
+                    <button class="btn-logout">
+                        <ion-icon name="log-out-outline"></ion-icon>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content (Chat) -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-title">
+                    <h2>AI Chat Helper</h2>
+                </div>
+                <div class="header-actions">
+                    <div class="search-bar">
+                        <ion-icon name="search-outline"></ion-icon>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                    <button class="icon-btn"><ion-icon name="notifications-outline"></ion-icon></button>
+                    <button class="icon-btn"><ion-icon name="information-circle-outline"></ion-icon></button>
+                </div>
+            </header>
+
+            <div class="chat-wrapper">
+                <div id="chat-container" class="chat-container">
+                    <!-- Messages will appear here -->
+                    <div class="message ai-message">
+                        <div class="message-content">
+                            Hello! I am Evidentia. Upload documents to the right and ask me anything.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-area-wrapper">
+                    <div class="input-container">
+                        <button class="btn-attach" id="upload-trigger">
+                            <ion-icon name="cloud-upload-outline"></ion-icon>
+                        </button>
+                        <input type="text" id="user-input" placeholder="Start typing your query...">
+                        <button id="send-btn" class="btn-send">
+                            <ion-icon name="paper-plane"></ion-icon>
+                        </button>
+                    </div>
+                    <div class="input-footer">
+                        <small>Evidentia AI can define complex answers grounded in your data.</small>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar (Documents/History) -->
+        <aside class="right-panel">
+            <div class="panel-header">
+                <h3>Documents</h3>
+                <span class="badge" id="doc-count">0</span>
+            </div>
+
+            <div class="upload-zone" id="drop-zone">
+                <ion-icon name="cloud-upload-outline"></ion-icon>
+                <p>Drag files here</p>
+                <input type="file" id="file-input" multiple hidden>
+            </div>
+
+            <div class="document-list" id="document-list">
+                <!-- Document items will be injected here -->
+            </div>
+        </aside>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

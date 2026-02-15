@@ -1,0 +1,20 @@
+fastapi
+uvicorn
+python-multipart
+python-dotenv
+sentence-transformers
+torch
+transformers
+pillow
+pytesseract
+openai-whisper
+faiss-cpu
+google-generativeai
+pdfplumber
+python-docx
+numpy
+requests
+aiofiles
+uvloop; sys_platform != 'win32'
+pydantic-settings
+pymupdf

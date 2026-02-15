@@ -1,0 +1,19 @@
+# Environments
+.env
+backend/.env
+venv/
+backend/venv/
+__pycache__/
+*.pyc
+
+# Data
+backend/data/uploads/*
+!backend/data/uploads/.gitkeep
+backend/data/faiss_index/*
+!backend/data/faiss_index/.gitkeep
+backend/data/metadata/*
+!backend/data/metadata/.gitkeep
+
+# IDEs
+.vscode/
+.idea/
