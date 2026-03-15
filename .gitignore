@@ -5,6 +5,7 @@ venv/
 backend/venv/
 __pycache__/
 *.pyc
+prompt.md
 
 # Data
 backend/data/uploads/*
