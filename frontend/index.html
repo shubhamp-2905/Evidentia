@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="default">
 
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,6 @@
     <title>Evidentia | Intelligent RAG System</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <!-- Ionicons for icons -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
@@ -24,36 +23,37 @@
             </div>
 
             <nav class="nav-menu">
-                <a href="#" class="nav-item active">
+                <a href="#" class="nav-item active" data-page="chat">
                     <ion-icon name="chatbubbles-outline"></ion-icon>
                     <span>AI Chat Helper</span>
                 </a>
-                <a href="#" class="nav-item">
+                <a href="#" class="nav-item" data-page="documents">
                     <ion-icon name="documents-outline"></ion-icon>
                     <span>Documents</span>
                 </a>
-                <a href="#" class="nav-item">
-                    <ion-icon name="analytics-outline"></ion-icon>
-                    <span>Analytics</span>
-                </a>
-                <a href="#" class="nav-item">
+                <a href="#" class="nav-item" data-page="settings">
                     <ion-icon name="settings-outline"></ion-icon>
                     <span>Settings</span>
                 </a>
             </nav>
 
             <div class="sidebar-footer">
-                <div class="pro-card">
-                    <div class="pro-content">
-                        <div class="pro-icon">
-                            <ion-icon name="flash"></ion-icon>
+                <!-- Stats widget (replaces Pro Plan) -->
+                <div class="stats-card">
+                    <div class="stats-card-header">
+                        <ion-icon name="bar-chart-outline"></ion-icon>
+                        <span>Knowledge Base</span>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-val" id="stat-docs">0</span>
+                            <span class="stat-label">Documents</span>
                         </div>
-                        <div class="pro-text">
-                            <h3>Pro Plan</h3>
-                            <p>Unlock advanced features</p>
+                        <div class="stat-item">
+                            <span class="stat-val" id="stat-chunks">0</span>
+                            <span class="stat-label">Chunks</span>
                         </div>
                     </div>
-                    <button class="btn-upgrade">Get Pro</button>
                 </div>
 
                 <div class="user-profile">
@@ -62,15 +62,17 @@
                         <span class="name">User</span>
                         <span class="role">Admin</span>
                     </div>
-                    <button class="btn-logout">
+                    <button class="btn-logout" title="Logout">
                         <ion-icon name="log-out-outline"></ion-icon>
                     </button>
                 </div>
             </div>
         </aside>
 
-        <!-- Main Content (Chat) -->
-        <main class="main-content">
+        <!-- ======================== PAGES ======================== -->
+
+        <!-- PAGE: AI Chat -->
+        <main class="main-content page active" id="page-chat">
             <header class="top-header">
                 <div class="header-title">
                     <h2>AI Chat Helper</h2>
@@ -87,7 +89,6 @@
 
             <div class="chat-wrapper">
                 <div id="chat-container" class="chat-container">
-                    <!-- Messages will appear here -->
                     <div class="message ai-message">
                         <div class="message-content">
                             Hello! I am Evidentia. Upload documents to the right and ask me anything.
@@ -97,7 +98,7 @@
 
                 <div class="input-area-wrapper">
                     <div class="input-container">
-                        <button class="btn-attach" id="upload-trigger">
+                        <button class="btn-attach" id="upload-trigger" title="Upload file">
                             <ion-icon name="cloud-upload-outline"></ion-icon>
                         </button>
                         <input type="text" id="user-input" placeholder="Start typing your query...">
@@ -106,14 +107,160 @@
                         </button>
                     </div>
                     <div class="input-footer">
-                        <small>Evidentia AI can define complex answers grounded in your data.</small>
+                        <small>Evidentia AI answers questions grounded in your uploaded documents.</small>
                     </div>
                 </div>
             </div>
         </main>
 
-        <!-- Right Sidebar (Documents/History) -->
-        <aside class="right-panel">
+        <!-- PAGE: Documents -->
+        <main class="main-content page" id="page-documents">
+            <header class="top-header">
+                <div class="header-title">
+                    <h2>Documents</h2>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-primary" id="upload-trigger-docs">
+                        <ion-icon name="cloud-upload-outline"></ion-icon>
+                        Upload Files
+                    </button>
+                </div>
+            </header>
+
+            <div class="docs-page-content">
+                <!-- Upload drop zone -->
+                <div class="upload-zone-large" id="drop-zone-docs">
+                    <ion-icon name="cloud-upload-outline"></ion-icon>
+                    <p>Drag &amp; drop files here, or click <strong>Upload Files</strong></p>
+                    <small>Supports PDF, DOCX, images, audio</small>
+                </div>
+
+                <!-- Document grid -->
+                <div class="docs-grid-header">
+                    <span id="docs-page-count">0 documents</span>
+                    <button class="btn-icon-text" id="refresh-docs-btn">
+                        <ion-icon name="refresh-outline"></ion-icon> Refresh
+                    </button>
+                </div>
+
+                <div class="docs-grid" id="docs-grid">
+                    <!-- Cards injected by JS -->
+                </div>
+            </div>
+        </main>
+
+        <!-- PAGE: Settings -->
+        <main class="main-content page" id="page-settings">
+            <header class="top-header">
+                <div class="header-title">
+                    <h2>Settings</h2>
+                </div>
+            </header>
+
+            <div class="settings-content">
+
+                <!-- Theme Switcher -->
+                <section class="settings-section">
+                    <div class="settings-section-header">
+                        <ion-icon name="color-palette-outline"></ion-icon>
+                        <h3>Appearance</h3>
+                    </div>
+                    <p class="settings-desc">Choose a theme for your workspace.</p>
+
+                    <div class="theme-grid">
+                        <button class="theme-card active" data-theme="default" title="Default Dark">
+                            <div class="theme-preview default-preview">
+                                <div class="tp-sidebar"></div>
+                                <div class="tp-main"></div>
+                            </div>
+                            <span>Default</span>
+                            <div class="theme-check"><ion-icon name="checkmark-circle"></ion-icon></div>
+                        </button>
+
+                        <button class="theme-card" data-theme="ocean" title="Ocean Blue">
+                            <div class="theme-preview ocean-preview">
+                                <div class="tp-sidebar"></div>
+                                <div class="tp-main"></div>
+                            </div>
+                            <span>Ocean</span>
+                            <div class="theme-check"><ion-icon name="checkmark-circle"></ion-icon></div>
+                        </button>
+
+                        <button class="theme-card" data-theme="forest" title="Forest Green">
+                            <div class="theme-preview forest-preview">
+                                <div class="tp-sidebar"></div>
+                                <div class="tp-main"></div>
+                            </div>
+                            <span>Forest</span>
+                            <div class="theme-check"><ion-icon name="checkmark-circle"></ion-icon></div>
+                        </button>
+
+                        <button class="theme-card" data-theme="rose" title="Rose Gold">
+                            <div class="theme-preview rose-preview">
+                                <div class="tp-sidebar"></div>
+                                <div class="tp-main"></div>
+                            </div>
+                            <span>Rose</span>
+                            <div class="theme-check"><ion-icon name="checkmark-circle"></ion-icon></div>
+                        </button>
+
+                        <button class="theme-card" data-theme="midnight" title="Midnight Purple">
+                            <div class="theme-preview midnight-preview">
+                                <div class="tp-sidebar"></div>
+                                <div class="tp-main"></div>
+                            </div>
+                            <span>Midnight</span>
+                            <div class="theme-check"><ion-icon name="checkmark-circle"></ion-icon></div>
+                        </button>
+
+                        <button class="theme-card" data-theme="ember" title="Ember">
+                            <div class="theme-preview ember-preview">
+                                <div class="tp-sidebar"></div>
+                                <div class="tp-main"></div>
+                            </div>
+                            <span>Ember</span>
+                            <div class="theme-check"><ion-icon name="checkmark-circle"></ion-icon></div>
+                        </button>
+
+                        <button class="theme-card" data-theme="slate" title="Slate Light">
+                            <div class="theme-preview slate-preview">
+                                <div class="tp-sidebar"></div>
+                                <div class="tp-main"></div>
+                            </div>
+                            <span>Slate</span>
+                            <div class="theme-check"><ion-icon name="checkmark-circle"></ion-icon></div>
+                        </button>
+
+                        <button class="theme-card" data-theme="neon" title="Neon Cyber">
+                            <div class="theme-preview neon-preview">
+                                <div class="tp-sidebar"></div>
+                                <div class="tp-main"></div>
+                            </div>
+                            <span>Neon</span>
+                            <div class="theme-check"><ion-icon name="checkmark-circle"></ion-icon></div>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- About -->
+                <section class="settings-section">
+                    <div class="settings-section-header">
+                        <ion-icon name="information-circle-outline"></ion-icon>
+                        <h3>About</h3>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-row"><span>Version</span><span>1.0.0</span></div>
+                        <div class="about-row"><span>Embedding Model</span><span>all-MiniLM-L6-v2</span></div>
+                        <div class="about-row"><span>Image Model</span><span>CLIP ViT-B/32</span></div>
+                        <div class="about-row"><span>Generation Model</span><span>Gemini Flash</span></div>
+                        <div class="about-row"><span>Vector Store</span><span>FAISS</span></div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Right Panel (only visible on Chat page) -->
+        <aside class="right-panel" id="right-panel">
             <div class="panel-header">
                 <h3>Documents</h3>
                 <span class="badge" id="doc-count">0</span>
@@ -122,17 +269,31 @@
             <div class="upload-zone" id="drop-zone">
                 <ion-icon name="cloud-upload-outline"></ion-icon>
                 <p>Drag files here</p>
-                <input type="file" id="file-input" multiple hidden>
+                <input type="file" id="file-input" multiple hidden
+                    accept=".pdf,.docx,.doc,.txt,.png,.jpg,.jpeg,.gif,.bmp,.webp,.mp3,.wav,.m4a,.ogg">
             </div>
 
             <div class="document-list" id="document-list">
-                <!-- Document items will be injected here -->
+                <!-- Document items injected here -->
             </div>
         </aside>
     </div>
 
-    <!-- Toast Notification Container -->
+    <!-- Toast Container -->
     <div id="toast-container"></div>
+
+    <!-- Document Viewer Modal -->
+    <div id="doc-modal" class="modal-overlay" hidden>
+        <div class="modal-box">
+            <div class="modal-header">
+                <span id="modal-title">Document</span>
+                <button id="modal-close" class="icon-btn"><ion-icon name="close-outline"></ion-icon></button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Content injected by JS -->
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
